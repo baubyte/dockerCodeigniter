@@ -1,2 +1,1 @@
-# dockerCodeigniter
-Simple Contenedor para Codeigniter
+## Docker con todo lo necesario para levantar Codeigniter

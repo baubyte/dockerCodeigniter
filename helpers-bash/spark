@@ -1,0 +1,6 @@
+#!/bin/bash
+
+args="$@"
+command="php spark $args"
+echo "$command"
+docker exec -it codeigniterdev-web bash -c "sudo -u devbaubyte /bin/bash -c \"$command\""
