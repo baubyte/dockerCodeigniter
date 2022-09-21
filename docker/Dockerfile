@@ -5,7 +5,7 @@ LABEL name="PHP 7.4 última versión estable en español + Apache"
 #Varibles de Entorno
 ENV APP_ENV=development \
     APP_BASE_DIR=/var/www/ \
-    APP_SERVER_ADMIN=admin@matelab.com.ar \
+    APP_SERVER_ADMIN=admin@baubyte.ar \
     APP_TIMEZONE=America/Argentina/Buenos_Aires \
     APACHE_RUN_USER=devbaubyte \
     APACHE_LOG_DIR=/web/apache/logs
@@ -78,8 +78,8 @@ RUN docker-php-ext-install \
 # Obtener la ultima version de Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Agregamos Node 14 LTS
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -- \
+# Agregamos Node 16 LTS
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -- \
     && apt-get install -y nodejs \
     && apt-get autoremove -y
 
