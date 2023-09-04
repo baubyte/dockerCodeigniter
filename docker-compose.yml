@@ -11,7 +11,7 @@ services:
     volumes: 
       - ./mysql-data/:/var/lib/mysql
     networks:
-      - devbaubyte
+      - "internal-networks"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: "${APP_NAME}-pma"
@@ -23,7 +23,7 @@ services:
       PMA_HOST: "${APP_NAME}-db"
       PMA_PORT: 3306
     networks:
-      - devbaubyte
+      - "internal-networks"
     depends_on: 
       - db
   app:
@@ -37,18 +37,20 @@ services:
     restart: unless-stopped
     ports: 
       - "${PORT_APACHE_WEB}:80"
+      - "${PORT_APACHE_WEB_SSL}:443"
     environment:
       - APACHE_RUN_USER=#1000
       - APACHE_RUN_GROUP=#1000
     volumes: 
       - ./app-src/:/var/www
-      - ./app-src/public:/var/www/html
+      - ./app-src/public:/var/www/html 
     networks:
-      - devbaubyte
-    depends_on: 
+      - "internal-networks"
+    depends_on:
       - db
 networks:
- devbaubyte:
+  internal-networks:
+    name: "${APP_NAME}"
     driver: bridge
 volumes: 
   mysql-data:
