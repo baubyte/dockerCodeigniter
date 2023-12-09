@@ -45,23 +45,18 @@ ENV LANG es_ES.UTF-8
 
 #Establecemos la hora local
 RUN rm /etc/localtime
-RUN echo "$APP_TIMEZONE" > /etc/timezone \
-    && ln -s /usr/share/zoneinfo/"$APP_TIMEZONE" /etc/localtime \
-    && dpkg-reconfigure -f noninteractive tzdata \
-    && true
+RUN echo $APP_TIMEZONE > /etc/timezone \
+    && ln -snf /usr/share/zoneinfo/$APP_TIMEZONE /etc/localtime \
+    && echo $APP_TIMEZONE > /etc/timezone
 
 # Limpiar cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 #Permisos y hora local
 RUN a2enmod rewrite \
-    && set -eux; \
-    { \
-      echo 'date.timezone = "${APP_TIMEZONE}"';\
-    }>$PHP_INI_DIR/conf.d/timezone.ini \
-    && cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini \
     && true \
     && a2enmod ssl
+RUN printf '[Date]\ndate.timezone="%s"\n', $APP_TIMEZONE > /usr/local/etc/php/conf.d/tzone.ini
 
 
 
